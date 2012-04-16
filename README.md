@@ -1,29 +1,3 @@
 # Indis
 
-TODO: Write a gem description
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'indis'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install indis
-
-## Usage
-
-TODO: Write usage instructions here
-
-## Contributing
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+Indis is an intelligent disassembly framework. The primary goal for indis is to provide facilities for analysis of binary files. The plan is to provide a highly extensible object model for binary contents with support of reversing back to C-like code.
