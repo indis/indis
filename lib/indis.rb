@@ -1,5 +1,6 @@
-require "indis/version"
+require 'indis-core'
+require 'indis-macho'
+require 'indis-arm'
 
 module Indis
-  # Your code goes here...
 end

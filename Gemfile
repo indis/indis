@@ -1,4 +1,8 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in indis.gemspec
+gem 'indis-core', :path => '../indis-core', :group => :development
+gem 'indis-macho', :path => '../indis-macho', :group => :development
+gem 'indis-arm', :path => '../indis-arm', :group => :development
+gem 'pry-nav', :group => :development
+
 gemspec
