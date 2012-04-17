@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+##############################################################################
+#   Indis framework                                                          #
+#   Copyright (C) 2012 Vladimir "Farcaller" Pouzanov <farcaller@gmail.com>   #
+#                                                                            #
+#   This program is free software: you can redistribute it and/or modify     #
+#   it under the terms of the GNU General Public License as published by     #
+#   the Free Software Foundation, either version 3 of the License, or        #
+#   (at your option) any later version.                                      #
+#                                                                            #
+#   This program is distributed in the hope that it will be useful,          #
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of           #
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            #
+#   GNU General Public License for more details.                             #
+#                                                                            #
+#   You should have received a copy of the GNU General Public License        #
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.    #
+##############################################################################
+
+require 'stringio'
+require 'indis'
+
+target = Indis::Target.new(ARGV[0])
+
+target.symbols.each_value do |i_sym|
+  sym = i_sym.format_sym
+  if sym.name.strip.length > 0 && !sym.stab?
+    puts "#{sprintf('%08x', sym.value).gsub('00000000','        ')} " +
+         (sym.type == :ABS ? "(absolute)" : "(#{i_sym.section ? i_sym.section.segment.name + ',' + i_sym.section.name : 'undefined'})") +
+         (sym.desc.include?(:REFERENCED_DYNAMICALLY) ? " [referenced dynamically]" : '') +
+         " #{sym.extern? ? 'external' : 'non-external'}#{sym.private_extern? ? ' (was a private external)' : ''}" +
+         (sym.desc.include?(:N_ARM_THUMB_DEF) ? " [Thumb]" : '') +
+         " #{sym.name}" +
+         (i_sym.image.is_a?(String) ? " (from #{File.basename(i_sym.image).split('.',2)[0]})" : '')
+         #"[TYPE:#{sym.type}#{sym.stab? ? ' (stab)' : ''}] " +
+         #"desc: #{sym.desc}"
+  end
+end

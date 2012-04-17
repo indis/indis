@@ -1,0 +1,76 @@
+#!/usr/bin/env ruby
+##############################################################################
+#   Indis framework                                                          #
+#   Copyright (C) 2012 Vladimir "Farcaller" Pouzanov <farcaller@gmail.com>   #
+#                                                                            #
+#   This program is free software: you can redistribute it and/or modify     #
+#   it under the terms of the GNU General Public License as published by     #
+#   the Free Software Foundation, either version 3 of the License, or        #
+#   (at your option) any later version.                                      #
+#                                                                            #
+#   This program is distributed in the hope that it will be useful,          #
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of           #
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            #
+#   GNU General Public License for more details.                             #
+#                                                                            #
+#   You should have received a copy of the GNU General Public License        #
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.    #
+##############################################################################
+
+require 'stringio'
+require 'indis'
+
+# set up target
+target = Indis::Target.new(ARGV[0])
+
+# find required symbol
+sym = target.symbols[ARGV[1]]
+exit(1) unless sym
+
+# build collision symbols for same section
+later_syms = []
+target.symbols.each_value { |s| later_syms << s if s.section == sym.section && s.vmaddr > sym.vmaddr }
+
+following_sym_addr = later_syms.map { |s| s.vmaddr }.min
+
+# parse all the section for symbol as code
+code_parser = Indis::ARM::CodeParser.new(target)
+code_parser.reparse_section(sym.section)
+
+# build a section map
+sectmap = target.vmmap[sym.section.to_vmrange]
+
+# preserve the address for zero index
+ofs = sym.vmaddr - sym.section.vmaddr
+
+# force-map any data referenced by LDR:A1_lit
+sectmap.each do |b|
+  if b.is_a?(Indis::ARM::LDRInstruction_A1_lit)
+    datab = Indis::DataEntity.new(b.vmaddr+b.imm+8, 4, target.vamap)
+    target.vamap.map!(datab)
+    b.tags[:value] = datab
+    datab.tags[:loaded_by] = b
+  end
+end
+
+# update the section map
+sectmap = target.vmmap[sym.section.to_vmrange]
+
+# print out
+base = sym.vmaddr
+(ofs..sym.section.vmsize).each do |ia|
+  break if following_sym_addr && base >= following_sym_addr
+
+  b = sectmap[ia]
+  
+  next unless b
+  
+  if b.is_a?(Fixnum)
+    base += 1
+    puts "#{sprintf("%08x", base)}         \tDCB\t#{b.to_s(16)}"
+  else
+    base += b.size
+    puts "#{sprintf("%08x", b.vmaddr)} #{sprintf("%08x", target.vmmap.bytes_at(base-b.size, b.size).pack('C*').unpack('V')[0])}\t" +
+         "#{b.to_s}\t#{b.tags.length > 0 ? 'REF: ' : ''}#{b.tags.map { |k, v| "#{k}: #{sprintf("%08x", v.vmaddr)}" }.join(', ')}"
+  end  
+end
