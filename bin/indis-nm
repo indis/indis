@@ -37,16 +37,15 @@ Main {
   def run
     target = Indis::Target.new(params['filename'].value).load
     
-    target.symbols.each do |i_sym|
-      sym = i_sym.format_sym
+    target.symbols.each do |sym|
       if sym.name.strip.length > 0 && !sym.stab?
-        puts "#{sprintf('%08x', sym.value).gsub('00000000','        ')} " +
-             (sym.type == :ABS ? "(absolute)" : "(#{i_sym.section ? i_sym.section.segment.name + ',' + i_sym.section.name : 'undefined'})") +
+        puts "#{sprintf('%08x', sym.vmaddr).gsub('00000000','        ')} " +
+             (sym.type == :ABS ? "(absolute)" : "(#{sym.section ? sym.section.segment.name + ',' + sym.section.name : 'undefined'})") +
              (sym.desc.include?(:REFERENCED_DYNAMICALLY) ? " [referenced dynamically]" : '') +
              " #{sym.extern? ? 'external' : 'non-external'}#{sym.private_extern? ? ' (was a private external)' : ''}" +
              (sym.desc.include?(:N_ARM_THUMB_DEF) ? " [Thumb]" : '') +
              " #{sym.name}" +
-             (i_sym.image.is_a?(String) ? " (from #{File.basename(i_sym.image).split('.',2)[0]})" : '')
+             (sym.image.is_a?(String) ? " (from #{File.basename(sym.image).split('.',2)[0]})" : '')
       end
     end
   end
