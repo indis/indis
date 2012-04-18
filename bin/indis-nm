@@ -20,11 +20,18 @@
 require 'main'
 require 'indis'
 
+VERSION = "0.3.0"
+
 Main {
+  synopsis "indis-nm <filename>"
+  author "Vladimir \"Farcaller\" Pouzanov"
+  version VERSION
+  
   argument('filename') {
     required
     cast :string
     validate { |fn| FileTest.file?(fn) }
+    synopsis "<filename> Mach-O binary file"
   }
   
   def run

@@ -21,6 +21,8 @@ require 'main'
 require 'terminal-table'
 require 'indis'
 
+VERSION = "0.2.2"
+
 def pad(*args)
   i = args.first
   if args.length == 1
@@ -85,16 +87,22 @@ def format_numbers(arr, fmt)
 end
 
 Main {
+  synopsis "indis-seg (segments|sections) <filename> [options]"
+  author "Vladimir \"Farcaller\" Pouzanov"
+  version VERSION
+  
   argument('filename') {
     required
     cast :string
     validate { |fn| FileTest.file?(fn) }
+    synopsis "<filename> Mach-O binary file"
   }
   
   option('number-format', '-n') {
     argument_required
     cast :integer
     defaults 16
+    synopsis "--number-format|-n numbers base (defauts to 16)"
   }
   
   mode 'segments' do

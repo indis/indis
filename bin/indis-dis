@@ -31,7 +31,7 @@ Main {
     required
     cast :string
     validate { |fn| FileTest.file?(fn) }
-    synopsis "<filename> binary file"
+    synopsis "<filename> Mach-O binary file"
   }
   
   argument('symbol') {
