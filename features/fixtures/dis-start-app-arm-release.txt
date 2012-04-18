@@ -1,0 +1,11 @@
+00002188 e59d0000	LDR	r0, [sp]	
+0000218c e28d1004	ADD	r1, sp, #4	
+00002190 e2804001	ADD	r4, r0, #1	
+00002194 e0812104	ADD	r2, r1, r4, lsl #2	
+00002198 e3cdd007	BIC	sp, sp, #7	
+0000219c e1a03002	MOV	r3, r2	
+000021a0 e4934004	LDR	r4, [r3], #4	
+000021a4 e3540000	CMP	r4, #0	
+000021a8 1afffffc	B.NE	0x21a0	
+000021ac eb000000	BL	0x21b4	; branch_to_sym: #<Indis::Symbol _main at 21b4>
+000021b0 ea00038b	B	0x2fe4	

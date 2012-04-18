@@ -1,0 +1,26 @@
++--------------+------------------+---------+------+-------------+----------------------------+
+| Segment Name | Name             | Address | Size | File Offset | Type                       |
++--------------+------------------+---------+------+-------------+----------------------------+
+| __TEXT       | __text           |    2188 |  450 |        1188 | S_REGULAR                  |
+| __TEXT       | __stub_helper    |    25d8 |   9c |        15d8 | S_REGULAR                  |
+| __TEXT       | __objc_methname  |    2674 |  55b |        1674 | S_CSTRING_LITERALS         |
+| __TEXT       | __cstring        |    2bcf |   94 |        1bcf | S_CSTRING_LITERALS         |
+| __TEXT       | __objc_classname |    2c63 |   3e |        1c63 | S_CSTRING_LITERALS         |
+| __TEXT       | __objc_methtype  |    2ca1 |  335 |        1ca1 | S_CSTRING_LITERALS         |
+| __TEXT       | __symbolstub1    |    2fd8 |   28 |        1fd8 | S_SYMBOL_STUBS             |
+| __DATA       | __lazy_symbol    |    3000 |   28 |        2000 | S_LAZY_SYMBOL_POINTERS     |
+| __DATA       | __program_vars   |    3030 |   14 |        2030 | S_REGULAR                  |
+| __DATA       | __nl_symbol_ptr  |    3044 |    8 |        2044 | S_NON_LAZY_SYMBOL_POINTERS |
+| __DATA       | __objc_classlist |    304c |    8 |        204c | S_REGULAR                  |
+| __DATA       | __objc_protolist |    3054 |    8 |        2054 | S_REGULAR                  |
+| __DATA       | __objc_imageinfo |    305c |    8 |        205c | S_REGULAR                  |
+| __DATA       | __objc_const     |    3068 |  498 |        2068 | S_REGULAR                  |
+| __DATA       | __objc_selrefs   |    3500 |   48 |        2500 | S_LITERAL_POINTERS         |
+| __DATA       | __objc_classrefs |    3548 |   10 |        2548 | S_REGULAR                  |
+| __DATA       | __objc_superrefs |    3558 |    8 |        2558 | S_REGULAR                  |
+| __DATA       | __objc_data      |    3560 |   50 |        2560 | S_REGULAR                  |
+| __DATA       | __objc_ivar      |    35b0 |    8 |        25b0 | S_REGULAR                  |
+| __DATA       | __cfstring       |    35b8 |   30 |        25b8 | S_REGULAR                  |
+| __DATA       | __data           |    35e8 |   58 |        25e8 | S_REGULAR                  |
+| __DATA       | __common         |    3640 |   10 |           0 | S_ZEROFILL                 |
++--------------+------------------+---------+------+-------------+----------------------------+

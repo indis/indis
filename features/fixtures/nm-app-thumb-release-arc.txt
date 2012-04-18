@@ -1,0 +1,54 @@
+00002278 (__TEXT,__text) non-external (was a private external) [Thumb] _main
+000022d4 (__TEXT,__text) non-external [Thumb] -[DAAppDelegate application:didFinishLaunchingWithOptions:]
+00002458 (__TEXT,__text) non-external [Thumb] -[DAAppDelegate applicationWillResignActive:]
+0000245c (__TEXT,__text) non-external [Thumb] -[DAAppDelegate applicationDidEnterBackground:]
+00002460 (__TEXT,__text) non-external [Thumb] -[DAAppDelegate applicationWillEnterForeground:]
+00002464 (__TEXT,__text) non-external [Thumb] -[DAAppDelegate applicationDidBecomeActive:]
+00002468 (__TEXT,__text) non-external [Thumb] -[DAAppDelegate applicationWillTerminate:]
+0000246c (__TEXT,__text) non-external [Thumb] -[DAAppDelegate window]
+0000247c (__TEXT,__text) non-external [Thumb] -[DAAppDelegate setWindow:]
+00002498 (__TEXT,__text) non-external [Thumb] -[DAAppDelegate viewController]
+000024a8 (__TEXT,__text) non-external [Thumb] -[DAAppDelegate setViewController:]
+000024c4 (__TEXT,__text) non-external [Thumb] -[DAAppDelegate .cxx_destruct]
+000024f8 (__TEXT,__text) non-external [Thumb] -[DAViewController viewDidLoad]
+0000254c (__TEXT,__text) non-external [Thumb] -[DAViewController viewDidUnload]
+00002578 (__TEXT,__text) non-external [Thumb] -[DAViewController shouldAutorotateToInterfaceOrientation:]
+00002584 (__TEXT,__text) non-external [Thumb] -[DAViewController add:to:]
+000025a4 (__TEXT,__text) non-external (was a private external) [Thumb] _objc_storeStrong$shim
+000025b0 (__TEXT,__stub_helper) non-external (was a private external)  stub helpers
+00003030 (__DATA,__program_vars) non-external _pvars
+00003550 (__DATA,__objc_data) non-external (was a private external) _OBJC_METACLASS_$_DAAppDelegate
+00003564 (__DATA,__objc_data) non-external (was a private external) _OBJC_CLASS_$_DAAppDelegate
+00003578 (__DATA,__objc_data) non-external (was a private external) _OBJC_CLASS_$_DAViewController
+0000358c (__DATA,__objc_data) non-external (was a private external) _OBJC_METACLASS_$_DAViewController
+000035d0 (__DATA,__objc_ivar) non-external (was a private external) _OBJC_IVAR_$_DAAppDelegate._window
+000035d4 (__DATA,__objc_ivar) non-external (was a private external) _OBJC_IVAR_$_DAAppDelegate._viewController
+00003630 (__DATA,__common) external _NXArgc
+00003634 (__DATA,__common) external _NXArgv
+0000363c (__DATA,__common) external ___progname
+00001000 (absolute) [referenced dynamically] external __mh_execute_header
+00003638 (__DATA,__common) external _environ
+0000224c (__TEXT,__text) external start
+         (undefined) external _NSLog (from Foundation)
+         (undefined) external _NSStringFromClass (from Foundation)
+         (undefined) external _OBJC_CLASS_$_UIResponder (from UIKit)
+         (undefined) external _OBJC_CLASS_$_UIScreen (from UIKit)
+         (undefined) external _OBJC_CLASS_$_UIViewController (from UIKit)
+         (undefined) external _OBJC_CLASS_$_UIWindow (from UIKit)
+         (undefined) external _OBJC_METACLASS_$_NSObject (from CoreFoundation)
+         (undefined) external _OBJC_METACLASS_$_UIResponder (from UIKit)
+         (undefined) external _OBJC_METACLASS_$_UIViewController (from UIKit)
+         (undefined) external _UIApplicationMain (from UIKit)
+         (undefined) external ___CFConstantStringClassReference (from CoreFoundation)
+         (undefined) external __objc_empty_cache (from libobjc)
+         (undefined) external __objc_empty_vtable (from libobjc)
+         (undefined) external _exit (from libSystem)
+         (undefined) external _objc_autoreleasePoolPop (from libobjc)
+         (undefined) external _objc_autoreleasePoolPush (from libobjc)
+         (undefined) external _objc_msgSend (from libobjc)
+         (undefined) external _objc_msgSendSuper2 (from libobjc)
+         (undefined) external _objc_msgSend_stret (from libobjc)
+         (undefined) external _objc_release (from libobjc)
+         (undefined) external _objc_retainAutoreleasedReturnValue (from libobjc)
+         (undefined) external _objc_storeStrong (from libobjc)
+         (undefined) external dyld_stub_binder (from libSystem)

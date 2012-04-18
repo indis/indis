@@ -16,6 +16,9 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Indis::VERSION
   
+  gem.add_development_dependency 'cucumber'
+  gem.add_development_dependency 'aruba'
+  
   gem.add_runtime_dependency 'main'
   gem.add_runtime_dependency 'terminal-table'
   

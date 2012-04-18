@@ -1,0 +1,51 @@
+000021b4 (__TEXT,__text) non-external (was a private external) _main
+00002214 (__TEXT,__text) non-external -[DAAppDelegate dealloc]
+00002298 (__TEXT,__text) non-external -[DAAppDelegate application:didFinishLaunchingWithOptions:]
+00002440 (__TEXT,__text) non-external -[DAAppDelegate applicationWillResignActive:]
+00002444 (__TEXT,__text) non-external -[DAAppDelegate applicationDidEnterBackground:]
+00002448 (__TEXT,__text) non-external -[DAAppDelegate applicationWillEnterForeground:]
+0000244c (__TEXT,__text) non-external -[DAAppDelegate applicationDidBecomeActive:]
+00002450 (__TEXT,__text) non-external -[DAAppDelegate applicationWillTerminate:]
+00002454 (__TEXT,__text) non-external -[DAAppDelegate window]
+00002468 (__TEXT,__text) non-external -[DAAppDelegate setWindow:]
+0000249c (__TEXT,__text) non-external -[DAAppDelegate viewController]
+000024b0 (__TEXT,__text) non-external -[DAAppDelegate setViewController:]
+000024e4 (__TEXT,__text) non-external -[DAViewController viewDidLoad]
+00002558 (__TEXT,__text) non-external -[DAViewController viewDidUnload]
+00002598 (__TEXT,__text) non-external -[DAViewController shouldAutorotateToInterfaceOrientation:]
+000025a8 (__TEXT,__text) non-external -[DAViewController add:to:]
+000025d8 (__TEXT,__stub_helper) non-external (was a private external)  stub helpers
+00003030 (__DATA,__program_vars) non-external _pvars
+00003560 (__DATA,__objc_data) non-external (was a private external) _OBJC_CLASS_$_DAAppDelegate
+00003574 (__DATA,__objc_data) non-external (was a private external) _OBJC_METACLASS_$_DAAppDelegate
+00003588 (__DATA,__objc_data) non-external (was a private external) _OBJC_CLASS_$_DAViewController
+0000359c (__DATA,__objc_data) non-external (was a private external) _OBJC_METACLASS_$_DAViewController
+000035b0 (__DATA,__objc_ivar) non-external (was a private external) _OBJC_IVAR_$_DAAppDelegate._window
+000035b4 (__DATA,__objc_ivar) non-external (was a private external) _OBJC_IVAR_$_DAAppDelegate._viewController
+00003640 (__DATA,__common) external _NXArgc
+00003644 (__DATA,__common) external _NXArgv
+0000364c (__DATA,__common) external ___progname
+00001000 (absolute) [referenced dynamically] external __mh_execute_header
+00003648 (__DATA,__common) external _environ
+00002188 (__TEXT,__text) external start
+         (undefined) external _NSLog (from Foundation)
+         (undefined) external _NSStringFromClass (from Foundation)
+         (undefined) external _OBJC_CLASS_$_UIResponder (from UIKit)
+         (undefined) external _OBJC_CLASS_$_UIScreen (from UIKit)
+         (undefined) external _OBJC_CLASS_$_UIViewController (from UIKit)
+         (undefined) external _OBJC_CLASS_$_UIWindow (from UIKit)
+         (undefined) external _OBJC_METACLASS_$_NSObject (from CoreFoundation)
+         (undefined) external _OBJC_METACLASS_$_UIResponder (from UIKit)
+         (undefined) external _OBJC_METACLASS_$_UIViewController (from UIKit)
+         (undefined) external _UIApplicationMain (from UIKit)
+         (undefined) external ___CFConstantStringClassReference (from CoreFoundation)
+         (undefined) external __objc_empty_cache (from libobjc)
+         (undefined) external __objc_empty_vtable (from libobjc)
+         (undefined) external _exit (from libSystem)
+         (undefined) external _objc_autoreleasePoolPop (from libobjc)
+         (undefined) external _objc_autoreleasePoolPush (from libobjc)
+         (undefined) external _objc_msgSend (from libobjc)
+         (undefined) external _objc_msgSendSuper2 (from libobjc)
+         (undefined) external _objc_msgSend_stret (from libobjc)
+         (undefined) external _objc_setProperty (from libobjc)
+         (undefined) external dyld_stub_binder (from libSystem)
