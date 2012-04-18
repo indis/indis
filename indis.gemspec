@@ -19,7 +19,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'main'
   gem.add_runtime_dependency 'terminal-table'
   
-  gem.add_runtime_dependency 'indis-core', '~> 0.1.2'
-  gem.add_runtime_dependency 'indis-macho', '~> 0.3.0'
-  gem.add_runtime_dependency 'indis-arm', '~> 0.3.0'
+  gem.add_runtime_dependency 'indis-core', '~> 0.1.3'
+  gem.add_runtime_dependency 'indis-macho', '~> 0.3.1'
+  gem.add_runtime_dependency 'indis-arm', '~> 0.3.1'
 end
