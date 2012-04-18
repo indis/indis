@@ -17,60 +17,82 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.    #
 ##############################################################################
 
-require 'stringio'
+require 'main'
 require 'indis'
 
-# set up target
-target = Indis::Target.new(ARGV[0])
+VERSION = "0.2.0"
 
-# find required symbol
-sym = target.symbols[ARGV[1]]
-exit(1) unless sym
+Main {
+  synopsis "indis-dis <filename> <symbol> [--without-analyzers]"
+  author "Vladimir \"Farcaller\" Pouzanov"
+  version VERSION
+  
+  argument('filename') {
+    required
+    cast :string
+    validate { |fn| FileTest.file?(fn) }
+    synopsis "<filename> binary file"
+  }
+  
+  argument('symbol') {
+    required
+    cast :string
+    synopsis "<symbol> symbol name to analyze"
+  }
+  
+  option('without-analyzers') {
+    optional
+    default false
+    synopsis "--without-analyzers skip attaching analyzers"
+  }
+  
+  def run
+    target = Indis::Target.new(params['filename'].value).load
+    sym = target.symbols.find { |sym| sym.name == params['symbol'].value }
+    unless sym
+      puts "Symbol #{params['symbol'].value} not found"
+      exit_failure
+    end
+    
+    # build collision symbols for same section
+    later_syms = []
+    target.symbols.each { |s| later_syms << s if s.section == sym.section && s.vmaddr > sym.vmaddr }
 
-# build collision symbols for same section
-later_syms = []
-target.symbols.each_value { |s| later_syms << s if s.section == sym.section && s.vmaddr > sym.vmaddr }
+    following_sym_addr = later_syms.map { |s| s.vmaddr }.min
 
-following_sym_addr = later_syms.map { |s| s.vmaddr }.min
+    # set up code analyzers
+    unless params['without-analyzers'].value
+      Indis::ARM::Analyzer::BLAnalyzer.new(target)
+      Indis::ARM::Analyzer::LDRLitAnalyzer.new(target)
+    end
 
-# parse all the section for symbol as code
-code_parser = Indis::ARM::CodeParser.new(target)
-code_parser.reparse_section(sym.section)
+    # parse all the section for symbol as code
+    code_parser = Indis::ARM::CodeParser.new(target)
+    code_parser.reparse_section(sym.section)
 
-# build a section map
-sectmap = target.vmmap[sym.section.to_vmrange]
+    # build a section map
+    sectmap = target.vmmap[sym.section.to_vmrange]
 
-# preserve the address for zero index
-ofs = sym.vmaddr - sym.section.vmaddr
+    # preserve the address for zero index
+    ofs = sym.vmaddr - sym.section.vmaddr
+    
+    # print out
+    base = sym.vmaddr
+    (ofs..sym.section.vmsize).each do |ia|
+      break if following_sym_addr && base >= following_sym_addr
 
-# force-map any data referenced by LDR:A1_lit
-sectmap.each do |b|
-  if b.is_a?(Indis::ARM::LDRInstruction_A1_lit)
-    datab = Indis::DataEntity.new(b.vmaddr+b.imm+8, 4, target.vamap)
-    target.vamap.map!(datab)
-    b.tags[:value] = datab
-    datab.tags[:loaded_by] = b
+      b = sectmap[ia]
+
+      next unless b
+
+      if b.is_a?(Fixnum)
+        base += 1
+        puts "#{sprintf("%08x", base)}         \tDCB\t#{b.to_s(16)}"
+      else
+        base += b.size
+        puts "#{sprintf("%08x", b.vmaddr)} #{sprintf("%08x", target.vmmap.bytes_at(base-b.size, b.size).pack('C*').unpack('V')[0])}\t" +
+             "#{b.to_s}\t#{b.tags.length > 0 ? '; ' : ''}#{b.tags.map { |k, v| "#{k}: #{v}" }.join(', ')}"
+      end  
+    end
   end
-end
-
-# update the section map
-sectmap = target.vmmap[sym.section.to_vmrange]
-
-# print out
-base = sym.vmaddr
-(ofs..sym.section.vmsize).each do |ia|
-  break if following_sym_addr && base >= following_sym_addr
-
-  b = sectmap[ia]
-  
-  next unless b
-  
-  if b.is_a?(Fixnum)
-    base += 1
-    puts "#{sprintf("%08x", base)}         \tDCB\t#{b.to_s(16)}"
-  else
-    base += b.size
-    puts "#{sprintf("%08x", b.vmaddr)} #{sprintf("%08x", target.vmmap.bytes_at(base-b.size, b.size).pack('C*').unpack('V')[0])}\t" +
-         "#{b.to_s}\t#{b.tags.length > 0 ? 'REF: ' : ''}#{b.tags.map { |k, v| "#{k}: #{sprintf("%08x", v.vmaddr)}" }.join(', ')}"
-  end  
-end
+}
