@@ -14,6 +14,8 @@ Gem::Specification.new do |gem|
   gem.name          = "indis"
   gem.require_paths = ["lib"]
   gem.version       = "0.1.0" # FIXME: reference Indis::VERSION from indis-core
+  gem.add_runtime_dependency 'main'
+  gem.add_runtime_dependency 'terminal-table'
   
   gem.add_runtime_dependency 'indis-core'
   gem.add_runtime_dependency 'indis-macho'

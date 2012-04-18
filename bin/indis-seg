@@ -17,7 +17,8 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.    #
 ##############################################################################
 
-require 'stringio'
+require 'main'
+require 'terminal-table'
 require 'indis'
 
 def pad(*args)
@@ -29,27 +30,103 @@ def pad(*args)
   end
 end
 
-target = Indis::Target.new(ARGV[0])
+def list_segments(target)
+  segcommands = target.format.commands.map{ |c| c if c.is_a?(Indis::MachO::SegmentCommand) }.compact
+  idx = 1
+  
+  ss = []
 
-mach = target.format
+  segcommands.each do |cmd|
+    s = {}
+    s[:name] = if cmd.segname.length > 0
+      cmd.segname
+    else
+      '*NONAME*'
+    end
+    
+    s[:addr] = cmd.vmaddr
+    s[:size] = cmd.vmsize
+    s[:fileoff] = cmd.fileoff
+    s[:filesize] = cmd.filesize
+    ss << s
+  end
+  ss
+end
 
-segcommands = mach.commands.map{ |c| c if c.is_a?(Indis::MachO::SegmentCommand) }.compact
+def list_sections(segmentcmd)
+  ss = []
 
-idx = 1
+  segmentcmd.sections.each do |sect|
+    s = {}
+    s[:segname] = segmentcmd.segname
+    s[:name] = sect.sectname
+    s[:addr] = sect.addr
+    s[:size] = sect.size
+    s[:offset] = sect.offset
+    s[:type] = sect.type
+    s[:attributes] = sect.attributes
+    ss << s
+  end
+  ss
+end
 
-puts "#{sprintf('%16s', 'segname')}  #{sprintf('%16s', 'sectname')}    vmaddr    vmsize   fileoff  filesize  type"
-segcommands.each do |cmd|
-  name = if cmd.segname.length > 0
-    cmd.segname
-  else
-    '*NONAME*'
+def list_all_sections(target)
+  ss = []
+
+  segcommands = target.format.commands.map{ |c| c if c.is_a?(Indis::MachO::SegmentCommand) }.compact
+  segcommands.each do |cmd|
+    ss << list_sections(cmd)
+  end
+  ss.flatten
+end
+
+def format_numbers(arr, fmt)
+  arr.map { |e| e.is_a?(Fixnum) ? e.to_s(fmt) : e }
+end
+
+Main {
+  argument('filename') {
+    required
+    cast :string
+    validate { |fn| FileTest.file?(fn) }
+  }
+  
+  option('number-format', '-n') {
+    argument_required
+    cast :integer
+    defaults 16
+  }
+  
+  mode 'segments' do
+    def run
+      target = Indis::Target.new(params['filename'].value).load
+      head = %w(Name Address Size File\ Offset File\ Size)
+      rows = list_segments(target).map do |s|
+        format_numbers([s[:name], s[:addr], s[:size], s[:fileoff], s[:filesize]], params['number-format'].value)
+      end
+      table = Terminal::Table.new(rows: rows, headings: head)
+      (1..4).each { |i| table.align_column(i, :right) }
+      
+      puts table
+    end
   end
   
-  puts "#{sprintf('%16s',name)}  #{' '*16}  #{pad cmd.vmaddr, true}  #{pad cmd.vmsize}  #{pad cmd.fileoff, true}  #{pad cmd.filesize}"
-
-  cmd.sections.each do |sec|
-    puts "#{' '*16}  #{sprintf('%16s',sec.sectname)}  #{pad sec.addr, true}  #{pad sec.size}  #{pad sec.offset, true}  " +
-         "          #{sec.type} #{sec.attributes.length > 0 ? sec.attributes : ''}"
-    idx += 1
+  mode 'sections' do
+    def run
+      target = Indis::Target.new(params['filename'].value).load
+      head = %w(Segment\ Name Name Address Size File\ Offset Type)
+      rows = list_all_sections(target).map do |s|
+        format_numbers([s[:segname], s[:name], s[:addr], s[:size], s[:offset], s[:type]], params['number-format'].value)
+      end
+      table = Terminal::Table.new(rows: rows, headings: head)
+      (2..4).each { |i| table.align_column(i, :right) }
+      
+      puts table
+    end
   end
-end
+  
+  def run
+    puts "Specify either sections or segments"
+    exit_failure
+  end
+}
