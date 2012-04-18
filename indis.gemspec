@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+require File.expand_path('../../indis-core/lib/indis-core/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Vladimir Pouzanov"]
@@ -13,7 +14,8 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "indis"
   gem.require_paths = ["lib"]
-  gem.version       = "0.1.0" # FIXME: reference Indis::VERSION from indis-core
+  gem.version       = Indis::VERSION
+  
   gem.add_runtime_dependency 'main'
   gem.add_runtime_dependency 'terminal-table'
   
