@@ -1,5 +1,10 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../../indis-core/lib/indis-core/version', __FILE__)
+
+begin
+  require File.expand_path('../../indis-core/lib/indis-core/version', __FILE__)
+rescue LoadError
+  $STUB_INDIS_VERSION = "9999"
+end
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Vladimir Pouzanov"]
@@ -14,7 +19,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "indis"
   gem.require_paths = ["lib"]
-  gem.version       = Indis::VERSION
+  gem.version       = $STUB_INDIS_VERSION ? $STUB_INDIS_VERSION : Indis::VERSION
   
   gem.add_development_dependency 'cucumber'
   gem.add_development_dependency 'aruba'
