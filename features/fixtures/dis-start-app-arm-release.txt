@@ -7,5 +7,5 @@
 000021a0 e4934004	LDR	r4, [r3], #4	
 000021a4 e3540000	CMP	r4, #0	
 000021a8 1afffffc	B.NE	0x21a0	
-000021ac eb000000	BL	0x21b4	; branch_to_sym: #<Indis::Symbol _main at 21b4>
+000021ac eb000000	BL	0x21b4	; branch_to_sym: #<Indis::MachO::Symbol _main at 21b4>
 000021b0 ea00038b	B	0x2fe4	
